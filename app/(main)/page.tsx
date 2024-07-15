@@ -10,11 +10,12 @@ import {
   CardHeader,
   Input,
 } from "@nextui-org/react";
-import LoadingCard from "./_components/loadingCard";
-import ResultCard from "./_components/resultCard";
+import LoadingCard from "./_components/LoadingCard";
+import ResultCard from "./_components/ResultCard";
 
 interface City {
   city: string;
+  country: string;
   latitude: number;
   longitude: number;
 }
@@ -178,12 +179,17 @@ export default function Home() {
 
   return (
     <main className="max-h-screen h-screen">
-      <div className="flex justify-center pt-10">
-        <Card>
+      <div className="flex justify-center pt-10 ">
+        <Card className="w-[100rem] flex justify-center">
           <CardHeader></CardHeader>
           <CardBody>
-            <h1 className="font-bold text-5xl">
-              Gebe eine Temperatur an, die an deinem Reiseziel herrschen soll.
+            <h1 className="font-bold text-5xl text-center">
+              {!isLoading &&
+                !isFinnished &&
+                " Gebe eine Temperatur an, die an deinem Reiseziel herrschen soll."}
+              {isLoading &&
+                " Wir suchen für dich die beste Stadt, die deinen Kriterien entspricht."}
+              {!isLoading && isFinnished && `Deine Reise geht nach: `}
             </h1>
           </CardBody>
           <CardFooter></CardFooter>
@@ -220,7 +226,7 @@ export default function Home() {
 
       {isLoading && <LoadingCard />}
       {!isLoading && isFinnished && (
-        <ResultCard city={city?.city} country={city?.city} />
+        <ResultCard city={city?.city} country={city?.country} />
       )}
     </main>
   );
