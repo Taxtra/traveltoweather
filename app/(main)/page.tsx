@@ -178,8 +178,15 @@ export default function Home() {
     fetchWeather();
   };
 
+  const handleReload = () => {
+    window.location.reload();
+  };
+
   return (
     <>
+      <div className="absolute top-0 right-0 p-10">
+        <Button onClick={handleReload}>NEUSTARTEN</Button>
+      </div>
       <main className="max-h-screen h-screen">
         <div className="flex justify-center pt-10 ">
           <Card className="w-[100rem] flex justify-center">
