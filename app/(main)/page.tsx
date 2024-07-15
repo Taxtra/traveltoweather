@@ -13,6 +13,7 @@ import {
 import LoadingCard from "./_components/LoadingCard";
 import ResultCard from "./_components/ResultCard";
 import Footer from "./_components/Footer";
+
 interface City {
   city: string;
   country: string;
@@ -227,9 +228,7 @@ export default function Home() {
         )}
 
         {isLoading && <LoadingCard />}
-        {!isLoading && isFinnished && (
-          <ResultCard city={city?.city} country={city?.country} />
-        )}
+        {!isLoading && isFinnished && <ResultCard city={city} />}
       </main>
       <Footer />
     </>

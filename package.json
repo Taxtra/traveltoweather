@@ -15,7 +15,9 @@
     "next": "14.2.5",
     "openmeteo": "^1.1.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-confetti-explosion": "^2.1.2",
+    "react-dom": "^18",
+    "react-native-confetti-cannon": "^1.5.2"
   },
   "devDependencies": {
     "@types/node": "^20",
