@@ -8,7 +8,9 @@ import {
   Button,
   useDisclosure,
   Image,
+  Divider,
 } from "@nextui-org/react";
+import { Accordion, AccordionItem } from "@nextui-org/react";
 
 const MoreInformationModal = (props: any) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -56,16 +58,13 @@ const MoreInformationModal = (props: any) => {
         // Process each location/model in responses
 
         const response = responses;
+
         const daily = response.daily;
 
         // Note: The order of weather variables in the URL query and the indices below need to match!
         const data = {
           daily: {
-            time: range(
-              Number(daily.time),
-              Number(daily.timeEnd),
-              daily.interval
-            ).map((t) => new Date((t + 7200) * 1000)),
+            time: daily.time,
             temperature2mMax: daily.temperature_2m_max,
             temperature2mMin: daily.temperature_2m_min,
             rainSum: daily.rain_sum,
@@ -92,6 +91,7 @@ const MoreInformationModal = (props: any) => {
           )
         );
 
+        console.log(allWeatherData, "allWeatherData");
         // Set the average temperatures and weather data for all locations/models
         setWeatherData(allWeatherData);
       } catch (error) {
@@ -101,6 +101,36 @@ const MoreInformationModal = (props: any) => {
 
     fetchWeather();
   }, [props.city]);
+
+  useEffect(() => {
+    console.log(weatherData, "weatherData");
+  }, [weatherData]);
+
+  const convertDate = (date: string) => {
+    if (!date) return "FEHLER";
+    let dateParts = date.split("-");
+
+    let tag = dateParts[2];
+    let monat = dateParts[1];
+    return `${tag}.${monat}`;
+  };
+
+  const getWeatherString = (date: number) => {
+    const max = weatherData[0]["daily"]["temperature2mMax"][date];
+    const min = weatherData[0]["daily"]["temperature2mMin"][date];
+    const rain = weatherData[0]["daily"]["rainSum"][date];
+    const avg = (max + min) / 2;
+    //`Max: ${max}°C, Min: ${min}°C, Regen: ${rain}mm`
+
+    return (
+      <div>
+        <p>☀Maximale Temperatur: {max.toFixed(2)}°C</p>
+        <p className="mt-2">🌤 Minimale Temperatur: {min.toFixed(2)}°C</p>
+        <p className="mt-2">😎 Durchscnitts Temperatur: {avg.toFixed(2)}°C</p>
+        <p className="mt-2">🌧 Regen: {rain.toFixed(2)}mm</p>
+      </div>
+    );
+  };
 
   return (
     <>
@@ -140,6 +170,85 @@ const MoreInformationModal = (props: any) => {
                   Durchschnittstemperatur der nächsten 7 Tage
                 </p>
                 <p>🌧 {rainSum.toFixed(2)}mm Regen wird es geben</p>
+                <Accordion>
+                  <AccordionItem
+                    key="1"
+                    aria-label={`Wetter am ${convertDate(
+                      weatherData[0]["daily"]["time"][0]
+                    )}`}
+                    title={`Wetter am ${convertDate(
+                      weatherData[0]["daily"]["time"][0]
+                    )}`}
+                  >
+                    {getWeatherString(0)}
+                  </AccordionItem>
+                  <AccordionItem
+                    key="2"
+                    aria-label={`Wetter am ${convertDate(
+                      weatherData[0]["daily"]["time"][1]
+                    )}`}
+                    title={`Wetter am ${convertDate(
+                      weatherData[0]["daily"]["time"][1]
+                    )}`}
+                  >
+                    {getWeatherString(1)}
+                  </AccordionItem>
+                  <AccordionItem
+                    key="3"
+                    aria-label={`Wetter am ${convertDate(
+                      weatherData[0]["daily"]["time"][2]
+                    )}`}
+                    title={`Wetter am ${convertDate(
+                      weatherData[0]["daily"]["time"][2]
+                    )}`}
+                  >
+                    {getWeatherString(2)}
+                  </AccordionItem>
+                  <AccordionItem
+                    key="4"
+                    aria-label={`Wetter am ${convertDate(
+                      weatherData[0]["daily"]["time"][3]
+                    )}`}
+                    title={`Wetter am ${convertDate(
+                      weatherData[0]["daily"]["time"][3]
+                    )}`}
+                  >
+                    {getWeatherString(3)}
+                  </AccordionItem>
+                  <AccordionItem
+                    key="5"
+                    aria-label={`Wetter am ${convertDate(
+                      weatherData[0]["daily"]["time"][4]
+                    )}`}
+                    title={`Wetter am ${convertDate(
+                      weatherData[0]["daily"]["time"][4]
+                    )}`}
+                  >
+                    {getWeatherString(4)}
+                  </AccordionItem>
+                  <AccordionItem
+                    key="6"
+                    aria-label={`Wetter am ${convertDate(
+                      weatherData[0]["daily"]["time"][5]
+                    )}`}
+                    title={`Wetter am ${convertDate(
+                      weatherData[0]["daily"]["time"][5]
+                    )}`}
+                  >
+                    {getWeatherString(5)}
+                  </AccordionItem>
+                  <AccordionItem
+                    key="7"
+                    aria-label={`Wetter am ${convertDate(
+                      weatherData[0]["daily"]["time"][6]
+                    )}`}
+                    title={`Wetter am ${convertDate(
+                      weatherData[0]["daily"]["time"][6]
+                    )}`}
+                  >
+                    {getWeatherString(6)}
+                  </AccordionItem>
+                </Accordion>
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
