@@ -12,7 +12,7 @@ import {
 } from "@nextui-org/react";
 import LoadingCard from "./_components/LoadingCard";
 import ResultCard from "./_components/ResultCard";
-
+import Footer from "./_components/Footer";
 interface City {
   city: string;
   country: string;
@@ -178,56 +178,60 @@ export default function Home() {
   };
 
   return (
-    <main className="max-h-screen h-screen">
-      <div className="flex justify-center pt-10 ">
-        <Card className="w-[100rem] flex justify-center">
-          <CardHeader></CardHeader>
-          <CardBody>
-            <h1 className="font-bold text-5xl text-center">
-              {!isLoading &&
-                !isFinnished &&
-                " Gebe eine Temperatur an, die an deinem Reiseziel herrschen soll."}
-              {isLoading &&
-                " Wir suchen für dich die beste Stadt, die deinen Kriterien entspricht."}
-              {!isLoading && isFinnished && `Deine Reise geht nach: `}
-            </h1>
-          </CardBody>
-          <CardFooter></CardFooter>
-        </Card>
-      </div>
-
-      {!isLoading && !isFinnished && (
-        <div className={`gap-3 items-center justify-center mt-72 flex`}>
-          <Card className="w-[50rem] h-[26rem]">
+    <>
+      <main className="max-h-screen h-screen">
+        <div className="flex justify-center pt-10 ">
+          <Card className="w-[100rem] flex justify-center">
             <CardHeader></CardHeader>
-            <CardBody className="flex justify-center">
-              <div className="flex justify-center">
-                <Image src="startpage.jpeg" width={500} height={500} />
-              </div>
-              <div className="flex">
-                <Input
-                  placeholder={
-                    "Welche Temperatur möchtest du haben?" + (city?.city || "")
-                  }
-                  className="pt-5"
-                  type="number"
-                  max={100}
-                  value={temperature}
-                  onValueChange={setTemperature}
-                />
-                <div className="pt-5">
-                  <Button onClick={handleSearch}>Suche</Button>
-                </div>
-              </div>
+            <CardBody>
+              <h1 className="font-bold text-5xl text-center">
+                {!isLoading &&
+                  !isFinnished &&
+                  " Gebe eine Temperatur an, die an deinem Reiseziel herrschen soll."}
+                {isLoading &&
+                  " Wir suchen für dich die beste Stadt, die deinen Kriterien entspricht."}
+                {!isLoading && isFinnished && `Deine Reise geht nach: `}
+              </h1>
             </CardBody>
+            <CardFooter></CardFooter>
           </Card>
         </div>
-      )}
 
-      {isLoading && <LoadingCard />}
-      {!isLoading && isFinnished && (
-        <ResultCard city={city?.city} country={city?.country} />
-      )}
-    </main>
+        {!isLoading && !isFinnished && (
+          <div className={`gap-3 items-center justify-center mt-72 flex`}>
+            <Card className="w-[50rem] h-[26rem]">
+              <CardHeader></CardHeader>
+              <CardBody className="flex justify-center">
+                <div className="flex justify-center">
+                  <Image src="startpage.jpeg" width={500} height={500} />
+                </div>
+                <div className="flex">
+                  <Input
+                    placeholder={
+                      "Welche Temperatur möchtest du haben?" +
+                      (city?.city || "")
+                    }
+                    className="pt-5"
+                    type="number"
+                    max={100}
+                    value={temperature}
+                    onValueChange={setTemperature}
+                  />
+                  <div className="pt-5">
+                    <Button onClick={handleSearch}>Suche</Button>
+                  </div>
+                </div>
+              </CardBody>
+            </Card>
+          </div>
+        )}
+
+        {isLoading && <LoadingCard />}
+        {!isLoading && isFinnished && (
+          <ResultCard city={city?.city} country={city?.country} />
+        )}
+      </main>
+      <Footer />
+    </>
   );
 }
